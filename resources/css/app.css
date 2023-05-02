@@ -1,0 +1,45 @@
+@import "../../vendor/filament/filament/resources/css/app.css";
+
+* {
+    font-family: "Rubik", sans-serif;
+    font-size: 1.02rem;
+    @apply bg-transparent;
+}
+
+.filament-sidebar-nav {
+    @apply bg-gray-600 bg-gradient-to-tl from-gray-500 to-gray-50 dark:bg-gray-600 dark:border-gray-500 dark:from-gray-400 dark:to-gray-500;
+}
+
+.filament-sidebar-nav .border-t {
+    @apply border-gray-950 dark:border-gray-50;
+}
+
+.filament-sidebar-item {
+    @apply text-gray-950 dark:text-white;
+}
+
+.filament-sidebar-item .inline-flex {
+    @apply text-gray-950 bg-green-900 dark:bg-gray-400 dark:text-white;
+}
+
+.filament-sidebar-group svg {
+    @apply text-gray-950 dark:text-gray-50;
+}
+
+.tracking-wider {
+    @apply text-sm text-gray-950 dark:text-gray-50;
+}
+
+.filament-brand {
+    @apply  text-yellow-600 dark:text-yellow-600 !important;
+}
+
+.filament-main {
+    @apply text-gray-950 dark:text-gray-50 bg-gradient-to-tl from-gray-600 to-gray-400 dark:bg-gray-400 dark:border-gray-500 dark:from-gray-400 dark:to-gray-500 !important;
+}
+
+.filament-main-content {
+    @apply text-gray-800 dark:text-gray-100 !important;
+}
+
+
