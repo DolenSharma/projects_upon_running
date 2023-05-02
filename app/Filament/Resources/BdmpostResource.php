@@ -44,7 +44,10 @@ class BdmpostResource extends Resource
     //----------------------------------------------------------------//
                 
                 TextInput::make('visa_required')
+<<<<<<< HEAD
                 ->label('Visa Required')
+=======
+>>>>>>> 902705a1 (all files loaded)
                 ->required()
                 ->datalist([
                     'GC EAD',
