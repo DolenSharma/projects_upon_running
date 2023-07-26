@@ -24,6 +24,6 @@ class ConsultantObserver
     private function generateLayerId($name)
     {
         $serialNumber = Consultant::max('id') + 1;
-        return 'CON' . str_pad($serialNumber, 3, '0', STR_PAD_LEFT) . ' ' . strtoupper(str_replace(' ', '', $name));
+        return 'CAN' . str_pad($serialNumber, 3, '0', STR_PAD_LEFT) . ' ' . strtoupper(str_replace(' ', '', $name));
     }
 }

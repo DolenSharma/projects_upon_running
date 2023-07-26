@@ -244,6 +244,7 @@
                         @if ($hasFiltersPopover)
                             <x-tables::filters.popover
                                 :form="$getFiltersForm()"
+                                :max-height="$getFiltersFormMaxHeight()"
                                 :width="$getFiltersFormWidth()"
                                 :indicators-count="count(\Illuminate\Support\Arr::flatten($filterIndicators))"
                                 class="shrink-0"
@@ -253,6 +254,7 @@
                         @if ($isColumnToggleFormVisible)
                             <x-tables::toggleable
                                 :form="$getColumnToggleForm()"
+                                :max-height="$getColumnToggleFormMaxHeight()"
                                 :width="$getColumnToggleFormWidth()"
                                 class="shrink-0"
                             />
@@ -270,7 +272,7 @@
                     'dark:border-gray-700' => config('tables.dark_mode'),
                 ])"
             />
-        @elseif ($isSelectionEnabled)
+        @elseif ($isSelectionEnabled && $isLoaded)
             <x-tables::selection-indicator
                 :all-records-count="$allRecordsCount"
                 :colspan="$columnsCount"
@@ -312,9 +314,17 @@
         >
             @if (($content || $hasColumnsLayout) && ($records !== null) && count($records))
                 @if (($content || $hasColumnsLayout) && (! $isReordering))
+                    @php
+                        $sortableColumns = array_filter(
+                            $columns,
+                            fn (\Filament\Tables\Columns\Column $column): bool => $column->isSortable(),
+                        );
+                    @endphp
+
                     <div @class([
                         'bg-gray-500/5 flex items-center gap-4 px-4 border-b',
                         'dark:border-gray-700' => config('tables.dark_mode'),
+                        'hidden' => (! $isSelectionEnabled) && (! count($sortableColumns)),
                     ])>
                         @if ($isSelectionEnabled)
                             <x-tables::checkbox
@@ -338,13 +348,6 @@
                                 ])"
                             />
                         @endif
-
-                        @php
-                            $sortableColumns = array_filter(
-                                $columns,
-                                fn (\Filament\Tables\Columns\Column $column): bool => $column->isSortable(),
-                            );
-                        @endphp
 
                         @if (count($sortableColumns))
                             <div
@@ -826,10 +829,11 @@
                                     @endphp
 
                                     <x-tables::cell
-                                        class="filament-table-cell-{{ \Illuminate\Support\Str::of($column->getName())->camel()->kebab() }} {{ $getHiddenClasses($column) }}"
                                         wire:key="{{ $this->id }}.table.record.{{ $recordKey }}.column.{{ $column->getName() }}"
                                         wire:loading.remove.delay
                                         wire:target="{{ implode(',', \Filament\Tables\Table::LOADING_TARGETS) }}"
+                                        class="filament-table-cell-{{ \Illuminate\Support\Str::of($column->getName())->camel()->kebab() }} {{ $getHiddenClasses($column) }}"
+                                        :attributes="\Filament\Support\prepare_inherited_attributes($column->getExtraCellAttributeBag())"
                                     >
                                         <x-tables::columns.column
                                             :column="$column"
